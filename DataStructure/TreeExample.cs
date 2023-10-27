@@ -84,10 +84,13 @@ public class TreeExample<TKey, TValue>
                 {
                     it.right.parent = it.parent;
 
-                    if (it.parent.right == it)
-                        it.parent.right = it.right;
-                    else
-                        it.parent.left = it.right;
+                    if (it.parent != null)
+                    {
+                        if (it.parent.right == it)
+                            it.parent.right = it.right;
+                        else
+                            it.parent.left = it.right;
+                    }
 
                     if (it.left != null)
                     {
@@ -122,33 +125,32 @@ public class TreeExample<TKey, TValue>
         }
     }
 
+    public TValue[] ToArray()
+    {
+        TValue[] arr = new TValue[length];
+        int index = 0;
+        return AddToArray(root, arr, ref index);
+    }
+
+    private TValue[] AddToArray(Node<TKey, TValue> node, TValue[] arr, ref int index)
+    {
+        if (node != null)
+        {
+            AddToArray(node.right, arr, ref index);
+            arr[index++] = node.value;
+            AddToArray(node.left, arr, ref index);
+        }
+
+        return arr;
+    }
+
     public void Show(Node<TKey, TValue> node)
     {
-        if (node.right == null)
+        if (node != null)
         {
+            Show(node.right);
             Console.WriteLine(node.value);
-            if (node.left != null)
-            {
-                node = node.left;
-                Show(node);
-                Console.WriteLine(node.value);
-            }
-            else
-            {
-                //Console.WriteLine(node.value);
-            }
-        }
-        else
-        {
-            node = node.right;
-            Show(node);
-            //Console.WriteLine(node.value);
-
-            if (node.left != null)
-            {
-                node = node.left;
-                Show(node);
-            }
+            Show(node.left);
         }
     }
 
@@ -172,8 +174,15 @@ public class TreeExample<TKey, TValue>
         tree.Add(110, "110");
         tree.Add(103, "103");
 
-        //tree.Remove(55);
+        //tree.Remove(105);
 
-        tree.Show(tree.root);
+        var a = tree.ToArray();
+
+        foreach (var aa in a)
+        {
+            Console.WriteLine(aa);
+        }
+
+        //tree.Show(tree.root);
     }
 }
