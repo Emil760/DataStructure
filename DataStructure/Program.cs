@@ -3,5 +3,5 @@
 
 using DataStructure;
 
-SelectionSortExample aa = new SelectionSortExample();
+InsertionSortExample aa = new InsertionSortExample();
 aa.Example();
