@@ -4,24 +4,24 @@ public class SelectionSortExample
 {
     public int[] Sort(int[] arr)
     {
-        int j = 0, m = 0;
-        int min, swap;
-        for (int i = 0; i < arr.Length; i++)
+        int j = 0, minIndex = 0;
+        int minValue, swap;
+        for (int i = 0; i < arr.Length - 1; i++)
         {
-            min = arr[i];
-            m = i;
+            minValue = arr[i];
+            minIndex = i;
             for (j = i; j < arr.Length; j++)
             {
-                if (arr[j] < min)
+                if (arr[j] < minValue)
                 {
-                    min = arr[j];
-                    m = j;
+                    minValue = arr[j];
+                    minIndex = j;
                 }
             }
 
             swap = arr[i];
-            arr[i] = min;
-            arr[m] = swap;
+            arr[i] = minValue;
+            arr[minIndex] = swap;
         }
 
         return arr;
