@@ -3,5 +3,5 @@
 
 using DataStructure;
 
-TreeExample<int, string> a = new TreeExample<int, string>();
-a.Example();
+SelectionSortExample aa = new SelectionSortExample();
+aa.Example();
