@@ -1,18 +1,18 @@
 ﻿namespace DataStructure;
 
-public class SelectionSortExample
+public class SelectionSortExample<T>
 {
-    public int[] Sort(int[] arr)
+    public T[] Sort(T[] arr)
     {
         int j = 0, minIndex = 0;
-        int minValue, swap;
+        T minValue, swap;
         for (int i = 0; i < arr.Length - 1; i++)
         {
             minValue = arr[i];
             minIndex = i;
             for (j = i; j < arr.Length; j++)
             {
-                if (arr[j] < minValue)
+                if (Comparer<T>.Default.Compare(arr[j], minValue) < 0)
                 {
                     minValue = arr[j];
                     minIndex = j;
@@ -27,18 +27,11 @@ public class SelectionSortExample
         return arr;
     }
 
-    public void Show(int[] arr)
+    public void Show(T[] arr)
     {
         for (int i = 0; i < arr.Length; i++)
         {
             Console.Write(arr[i] + " ");
         }
-    }
-
-    public void Example()
-    {
-        int[] a = new int[] { -7, 55, -3, 22, -8, 111, 8, 7, 111 };
-        a = Sort(a);
-        Show(a);
     }
 }

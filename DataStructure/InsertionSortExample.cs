@@ -1,41 +1,29 @@
 ﻿namespace DataStructure;
 
-public class InsertionSortExample
+public class InsertionSortExample<T>
 {
-    public int[] Sort(int[] arr)
+    public T[] Sort(T[] arr)
     {
-        int swap;
-        int minValue;
-        int swapIndex;
+        T swap;
+        T minValue;
+        int j;
         for (int i = 1; i < arr.Length; i++)
         {
             minValue = arr[i];
-            swapIndex = i;
-            for (int j = i - 1; j >= 0; j--)
+            j = i;
+            while (j > 0 && Comparer<T>.Default.Compare(arr[j - 1], minValue) > 0)
             {
-                if (arr[j] > minValue)
-                {
-                    minValue = arr[j];
-                    swapIndex = j;
-                }
+                swap = arr[j - 1];
+                arr[j] = swap;
+                arr[j - 1] = minValue;
+                j--;
             }
-
-            swap = arr[swapIndex];
-            arr[i] = swap;
-            arr[swapIndex] = minValue;
         }
 
         return arr;
     }
 
-    public void Example()
-    {
-        int[] a = new int[] { -1, -7, -3, 22, -8, 111, 8, 7, 111 };
-        a = Sort(a);
-        Show(a);
-    }
-
-    public void Show(int[] arr)
+    public void Show(T[] arr)
     {
         for (int i = 0; i < arr.Length; i++)
         {

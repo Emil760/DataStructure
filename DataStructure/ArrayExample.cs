@@ -24,7 +24,7 @@ public class ArrayExample<T>
     {
         if (index < 0 || index + 1 > array.Length)
             throw new ArgumentOutOfRangeException();
-        
+
         T[] copy = new T[array.Length - 1];
         int copyIndex = 0;
 
@@ -45,7 +45,7 @@ public class ArrayExample<T>
     {
         for (int i = 0; i < arr.Length; i++)
         {
-                     Console.WriteLine($"index{i}: {arr[i]}");
+            Console.WriteLine($"index{i}: {arr[i]}");
         }
     }
 

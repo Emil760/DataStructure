@@ -1,18 +1,18 @@
 ﻿namespace DataStructure;
 
-public class ArrayListExample<T>
+public class ListExample<T>
 {
     private T[] arr;
     private const int defaultCapacity = 2;
     private int lenght;
 
-    public ArrayListExample()
+    public ListExample()
     {
         arr = new T[defaultCapacity];
         lenght = 0;
     }
 
-    public ArrayListExample(int capacity)
+    public ListExample(int capacity)
     {
         arr = new T[capacity];
         lenght = 0;
@@ -89,7 +89,7 @@ public class ArrayListExample<T>
 
     public void Example()
     {
-        ArrayListExample<int> a = new ArrayListExample<int>();
+        ListExample<int> a = new ListExample<int>();
         a.Add(11);
         a.Add(22);
         a.Add(33);
