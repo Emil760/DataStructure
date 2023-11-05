@@ -9,5 +9,6 @@ using DataStructure;
 // arr2 = sorter.Sort(arr2, 0, arr2.Length);
 // sorter.Show(arr2);
 
-ConcurrentQueueExample concurrentQueueExample = new ConcurrentQueueExample();
-concurrentQueueExample.Example();
+HashSetExample dictionary = new HashSetExample();
+dictionary.Example();
+
