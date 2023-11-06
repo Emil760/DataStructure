@@ -9,6 +9,5 @@ using DataStructure;
 // arr2 = sorter.Sort(arr2, 0, arr2.Length);
 // sorter.Show(arr2);
 
-HashSetExample dictionary = new HashSetExample();
-dictionary.Example();
-
+TreeExample<int, string> tree = new TreeExample<int, string>();
+tree.Example();

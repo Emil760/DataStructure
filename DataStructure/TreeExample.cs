@@ -15,6 +15,16 @@ public class TreeExample<TKey, TValue>
     private Node<TKey, TValue> root;
     private int length;
 
+    public Node<TKey, TValue> Root
+    {
+        get => root;
+    }
+
+    public int Length
+    {
+        get => length;
+    }
+
     public void Add(TKey key, TValue value)
     {
         Node<TKey, TValue> node = new Node<TKey, TValue>()
@@ -63,66 +73,102 @@ public class TreeExample<TKey, TValue>
 
     public void Remove(TKey key)
     {
-        Node<TKey, TValue> it = root;
-        int compareResult = 0;
+        Remove(root, key);
+    }
 
-        while (it != null)
+    private void Remove(Node<TKey, TValue> node, TKey key)
+    {
+        if (node == null)
+            throw new ArgumentException($"The node {key} does not exist.");
+
+        int comparer = Comparer<TKey>.Default.Compare(key, node.key);
+
+        if (comparer < 0)
         {
-            compareResult = Comparer<TKey>.Default.Compare(it.key, key);
-
-            if (compareResult == 0)
+            Remove(node.left, key);
+        }
+        else if (comparer > 0)
+        {
+            Remove(node.right, key);
+        }
+        else
+        {
+            if (node.left == null && node.right == null)
             {
-                if (it == root)
-                {
-                    if (it.right != null)
-                        root = it.right;
-                    else if (it.left != null)
-                        root = it.left;
-                }
-
-                if (it.right != null)
-                {
-                    it.right.parent = it.parent;
-
-                    if (it.parent != null)
-                    {
-                        if (it.parent.right == it)
-                            it.parent.right = it.right;
-                        else
-                            it.parent.left = it.right;
-                    }
-
-                    if (it.left != null)
-                    {
-                        Node<TKey, TValue> pivot = it.right;
-                        while (pivot.left != null)
-                            pivot = pivot.left;
-
-                        pivot.left = it.left;
-                        it.left.parent = pivot;
-                    }
-                }
-                else if (it.left != null)
-                {
-                    it.left.parent = it.parent;
-                    it.parent.left = it.left;
-                }
-
-                it.right = null;
-                it.left = null;
-                it.parent = null;
+                ReplaceInParent(node, null);
                 length--;
-                return;
             }
-            else if (compareResult > 0)
+            else if (node.right == null)
             {
-                it = it.left;
+                ReplaceInParent(node, node.left);
+                length--;
+            }
+            else if (node.left == null)
+            {
+                ReplaceInParent(node, node.right);
+                length--;
             }
             else
             {
-                it = it.right;
+                Node<TKey, TValue> successor = FindMinimumInSubtree(node.right);
+                node.key = successor.key;
+                node.value = successor.value;
+                Remove(successor, successor.key);
             }
         }
+    }
+
+    private void ReplaceInParent(Node<TKey, TValue> node, Node<TKey, TValue> newNode)
+    {
+        if (node.parent != null)
+        {
+            if (node.parent.left == node)
+            {
+                node.parent.left = newNode;
+            }
+            else
+            {
+                node.parent.right = newNode;
+            }
+        }
+        else
+        {
+            root = newNode;
+        }
+
+        if (newNode != null)
+        {
+            newNode.parent = node.parent;
+        }
+    }
+
+    private Node<TKey, TValue> FindMinimumInSubtree(Node<TKey, TValue> node)
+    {
+        while (node.left != null)
+        {
+            node = node.left;
+        }
+
+        return node;
+    }
+
+    public TValue Get(TKey key)
+    {
+        Node<TKey, TValue> node = root;
+        int comparer;
+        while (node != null)
+        {
+            comparer = Comparer<TKey>.Default.Compare(key, node.key);
+
+            if (comparer == 0)
+                return node.value;
+            else if (comparer > 0)
+                node = node.right;
+            else
+                node = node.left;
+        }
+
+        throw new KeyNotFoundException();
     }
 
     public TValue[] ToArray()
@@ -144,13 +190,43 @@ public class TreeExample<TKey, TValue>
         return arr;
     }
 
-    public void Show(Node<TKey, TValue> node)
+    public void ShowDescending(Node<TKey, TValue> node)
     {
         if (node != null)
         {
-            Show(node.right);
+            ShowDescending(node.right);
             Console.WriteLine(node.value);
-            Show(node.left);
+            ShowDescending(node.left);
+        }
+    }
+
+    public void ShowAscending(Node<TKey, TValue> node)
+    {
+        if (node != null)
+        {
+            ShowAscending(node.left);
+            Console.WriteLine(node.value);
+            ShowAscending(node.right);
+        }
+    }
+
+    public void PreOrderShow(Node<TKey, TValue> node)
+    {
+        if (node != null)
+        {
+            Console.WriteLine(node.value);
+            PreOrderShow(node.left);
+            PreOrderShow(node.right);
+        }
+    }
+
+    public void PostOrderShow(Node<TKey, TValue> node)
+    {
+        if (node != null)
+        {
+            PostOrderShow(node.left);
+            PostOrderShow(node.right);
+            Console.WriteLine(node.value);
         }
     }
 
@@ -174,15 +250,8 @@ public class TreeExample<TKey, TValue>
         tree.Add(110, "110");
         tree.Add(103, "103");
 
-        //tree.Remove(105);
+        tree.Remove(59);
 
-        var a = tree.ToArray();
-
-        foreach (var aa in a)
-        {
-            Console.WriteLine(aa);
-        }
-
-        //tree.Show(tree.root);
+        tree.PostOrderShow(tree.root);
     }
 }
